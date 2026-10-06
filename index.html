@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>For Adrina — A Little Invitation</title>
+<meta name="description" content="A private, minimal invitation for Adrina. Come to the cafe and spend a little time.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23050505'/%3E%3Ctext x='32' y='42' font-family='Arial' font-weight='800' font-size='28' fill='white' text-anchor='middle'%3EA%3C/text%3E%3Ccircle cx='48' cy='18' r='4' fill='%23E9A9BC'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: { fontFamily: { sans: ['Manrope','sans-serif'], serif: ['"Instrument Serif"','serif'] } } } }
+</script>
+<style>
+:root{
+  --bg:#050505;
+  --white:#f5f5f5;
+  --muted:rgba(255,255,255,.55);
+  --faint:rgba(255,255,255,.32);
+  --line:rgba(255,255,255,.08);
+  --pink:#E9A9BC;
+  --pink-soft:#F7D0DB;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  background:var(--bg);
+  color:var(--white);
+  font-family:'Manrope',sans-serif;
+  overflow-x:hidden;
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+::selection{background:#fff;color:#000}
+button,a{font-family:inherit}
+button:focus-visible,a:focus-visible{outline:2px solid #fff;outline-offset:4px;border-radius:999px}
+.serif{font-family:'Instrument Serif',serif}
+
+/* ---------- BACKGROUND LAYERS ---------- */
+#particles{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.95}
+.orb{position:fixed;border-radius:50%;filter:blur(130px);pointer-events:none;z-index:1;will-change:transform}
+.orb-1{width:640px;height:640px;left:50%;top:-220px;transform:translateX(-50%);background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 70%);animation:drift1 14s ease-in-out infinite alternate}
+.orb-2{width:520px;height:520px;left:-120px;bottom:-160px;background:radial-gradient(circle,rgba(233,169,188,.09) 0%,transparent 70%);animation:drift2 18s ease-in-out infinite alternate}
+.orb-3{width:460px;height:460px;right:-120px;top:32%;background:radial-gradient(circle,rgba(139,92,246,.07) 0%,transparent 70%);animation:drift1 20s ease-in-out infinite alternate-reverse}
+body.accepted .orb-2{background:radial-gradient(circle,rgba(233,169,188,.14) 0%,transparent 70%)}
+body.accepted .orb-1{background:radial-gradient(circle,rgba(255,255,255,.11) 0%,transparent 70%)}
+@keyframes drift1{from{transform:translateX(-50%) translateY(0)}to{transform:translateX(-48%) translateY(28px)}}
+@keyframes drift2{from{transform:translate(0,0)}to{transform:translate(36px,-28px)}}
+.vignette{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at center,transparent 42%,rgba(0,0,0,.62) 100%)}
+.grain{position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.055;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.9'/%3E%3C/svg%3E");background-size:180px 180px}
+.giant-word{position:fixed;left:50%;top:50%;transform:translate(-50%,-52%);z-index:1;pointer-events:none;user-select:none;font-weight:800;letter-spacing:-.06em;line-height:1;font-size:23vw;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.045);opacity:.9}
+#cursorGlow{position:fixed;left:0;top:0;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:4;background:radial-gradient(circle,rgba(255,255,255,.055) 0%,transparent 68%);will-change:transform}
+
+/* ---------- HEADER / FOOTER ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:space-between;padding:20px 22px;background:linear-gradient(180deg,rgba(5,5,5,.85) 0%,transparent 100%)}
+.h-left{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.24em;font-weight:700;color:rgba(255,255,255,.72)}
+.h-left .dim{color:rgba(255,255,255,.32);font-weight:600}
+.h-left .sep{color:rgba(255,255,255,.18)}
+.h-right{display:flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.18em;font-weight:700;color:rgba(255,255,255,.6)}
+.status-dot{width:7px;height:7px;border-radius:50%;background:#fff;box-shadow:0 0 12px rgba(255,255,255,.8);animation:pulseDot 1.8s ease-in-out infinite}
+.status-dot.ok{background:var(--pink);box-shadow:0 0 14px rgba(233,169,188,.9)}
+.clock{color:rgba(255,255,255,.32);font-weight:600;letter-spacing:.12em}
+@keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.45;transform:scale(.75)}}
+footer{position:fixed;bottom:0;left:0;right:0;z-index:20;display:flex;align-items:center;justify-content:center;gap:10px;padding:18px 16px;font-size:10px;letter-spacing:.22em;font-weight:600;color:rgba(255,255,255,.28);background:linear-gradient(0deg,rgba(5,5,5,.9) 0%,transparent 100%)}
+footer .kitty-svg{opacity:.5}
+
+/* ---------- FLOATING KITTIES ---------- */
+.float-kitty{position:fixed;z-index:3;pointer-events:none;color:rgba(255,255,255,.6);opacity:.13;animation:floaty 7s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-12px) rotate(var(--r,0deg))}}
+@keyframes floaty2{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* ---------- STAGE / CARD ---------- */
+main{position:relative;z-index:10;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:96px 16px 92px}
+#stage{width:100%;max-width:620px;display:flex;flex-direction:column;align-items:center}
+#cardWrap{width:100%;perspective:1400px}
+#card{
+  position:relative;width:100%;overflow:visible;border-radius:32px;
+  background:linear-gradient(180deg,rgba(255,255,255,.07) 0%,rgba(255,255,255,.018) 100%);
+  border:1px solid rgba(255,255,255,.09);
+  backdrop-filter:blur(26px) saturate(140%);-webkit-backdrop-filter:blur(26px) saturate(140%);
+  box-shadow:0 50px 110px -20px rgba(0,0,0,.92),0 0 0 1px rgba(255,255,255,.02) inset,0 1px 0 rgba(255,255,255,.09) inset;
+  padding:40px 28px;transition:border-color .6s,box-shadow .6s;
+  transform-style:preserve-3d;will-change:transform;
+}
+@media(min-width:640px){#card{padding:52px 54px;border-radius:36px}}
+#card.accepted-glow{border-color:rgba(233,169,188,.26);box-shadow:0 50px 110px -20px rgba(0,0,0,.9),0 0 90px -18px rgba(233,169,188,.28),0 1px 0 rgba(255,255,255,.1) inset}
+.card-top-line{position:absolute;top:0;left:50%;transform:translateX(-50%);width:62%;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.35),transparent);pointer-events:none}
+.card-glow{position:absolute;left:50%;top:-1px;transform:translateX(-50%);width:72%;height:120px;background:radial-gradient(ellipse at top,rgba(255,255,255,.08),transparent 70%);pointer-events:none;filter:blur(6px)}
+.corner{position:absolute;color:rgba(255,255,255,.42);opacity:.38;pointer-events:none}
+.corner.tl{top:18px;left:18px;transform:rotate(-12deg)}
+.corner.tr{top:18px;right:18px;transform:rotate(12deg)}
+.corner.bl{bottom:18px;left:18px;transform:rotate(10deg)}
+.corner.br{bottom:18px;right:18px;transform:rotate(-10deg)}
+
+.kitty-svg{display:block;overflow:visible}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 10px rgba(255,255,255,.9);animation:pulseDot 2s infinite}
+.live-dot.accepted{background:var(--pink);box-shadow:0 0 12px rgba(233,169,188,1)}
+
+/* ---------- INVITE TYPO ---------- */
+.pill{display:inline-flex;align-items:center;gap:9px;padding:8px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);font-size:10.5px;letter-spacing:.24em;font-weight:700;color:rgba(255,255,255,.6)}
+.hey{letter-spacing:.5em;text-indent:.5em;font-size:13px;font-weight:700;color:rgba(255,255,255,.48)}
+.adrina{
+  font-weight:800;letter-spacing:-.045em;line-height:.92;margin:6px 0 0;
+  font-size:clamp(58px,13vw,92px);
+  background:linear-gradient(180deg,#ffffff 18%,#d4d4d8 52%,#7a7a7e 88%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 12px 32px rgba(0,0,0,.6));
+}
+.adrina .dot{background:linear-gradient(180deg,#fff,#a1a1aa);-webkit-background-clip:text;background-clip:text;color:transparent}
+.invite-sub{font-size:20px;color:rgba(255,255,255,.68);margin-top:10px}
+.message{font-size:clamp(19px,4.6vw,23px);font-weight:600;line-height:1.45;color:#f5f5f5;max-width:440px;margin:0 auto}
+.subnote{font-size:13px;color:rgba(255,255,255,.38);letter-spacing:.02em;margin-top:8px}
+
+/* hero kitty */
+.hero-wrap{position:relative;width:132px;height:132px;margin:10px auto 2px;display:flex;align-items:center;justify-content:center}
+.hero-glow{position:absolute;width:88px;height:88px;border-radius:50%;background:radial-gradient(circle,rgba(233,169,188,.22) 0%,transparent 70%);filter:blur(10px)}
+.hero-ring{position:absolute;inset:6px;border-radius:50%;border:1px solid rgba(255,255,255,.07)}
+.hero-ring2{position:absolute;inset:0;border-radius:50%;border:1px dashed rgba(255,255,255,.06);animation:spinSlow 26s linear infinite}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+.orbit-text{position:absolute;inset:-6px;animation:spinSlow 22s linear infinite;opacity:.5;pointer-events:none}
+.orbit-text svg{width:100%;height:100%}
+.orbit-text text{fill:rgba(255,255,255,.42);font-size:8.2px;letter-spacing:2.1px;font-weight:700;font-family:'Manrope',sans-serif}
+.hero-kitty{position:relative;z-index:2;animation:floaty2 5s ease-in-out infinite;filter:drop-shadow(0 8px 24px rgba(0,0,0,.6)) drop-shadow(0 0 22px rgba(233,169,188,.18))}
+.hero-eyes{transform-box:fill-box;transform-origin:center;animation:blinkHero 4.4s infinite}
+@keyframes blinkHero{0%,91%,100%{transform:scaleY(1)}93%,95%{transform:scaleY(.08)}}
+.hero-bow{transform-box:fill-box;transform-origin:center;animation:bowPulse 3.6s ease-in-out infinite}
+@keyframes bowPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+/* divider */
+.divider{display:flex;align-items:center;gap:12px;margin:16px auto;max-width:360px}
+.divider .line{height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent)}
+.divider .kitty-svg{opacity:.55;flex-shrink:0}
+
+/* buttons */
+.btn-zone{position:relative;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;width:100%;margin-top:18px;min-height:120px}
+@media(min-width:640px){.btn-zone{flex-direction:row;min-height:76px}}
+.btn{
+  position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  padding:17px 30px;border-radius:999px;min-height:56px;min-width:210px;width:100%;
+  font-size:12.5px;font-weight:800;letter-spacing:.14em;white-space:nowrap;cursor:pointer;user-select:none;touch-action:manipulation;
+  transition:background .3s,color .3s,border-color .3s,box-shadow .3s,filter .3s;
+  will-change:transform;
+}
+@media(min-width:640px){.btn{width:auto;flex:1;max-width:260px}}
+.btn-yes{background:#f4f4f5;color:#09090b;border:1px solid #fff;overflow:hidden;box-shadow:0 14px 36px -12px rgba(255,255,255,.32),0 2px 0 rgba(255,255,255,.6) inset}
+.btn-yes:hover{background:#fff;box-shadow:0 18px 46px -12px rgba(255,255,255,.42);filter:brightness(1.02)}
+.btn-yes.glow{box-shadow:0 18px 54px -10px rgba(255,255,255,.45),0 0 0 1px rgba(255,255,255,.2),0 0 32px rgba(233,169,188,.22)}
+.btn-yes .shine{position:absolute;top:0;left:0;width:55%;height:100%;background:linear-gradient(105deg,transparent,rgba(0,0,0,.07),transparent);transform:translateX(-160%) skewX(-20deg);transition:transform .7s ease;pointer-events:none}
+.btn-yes:hover .shine{transform:translateX(260%) skewX(-20deg)}
+.btn-yes .arrow{font-weight:800;transition:transform .3s}
+.btn-yes:hover .arrow{transform:translateX(3px)}
+.mini-kitty{position:absolute;top:-9px;right:14px;color:rgba(0,0,0,.55);opacity:.9;transform:rotate(12deg);pointer-events:none}
+.btn-no{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.12);color:#a3a3a3;backdrop-filter:blur(8px);z-index:5}
+.btn-no:hover{border-color:rgba(255,255,255,.26);color:#fff;background:rgba(255,255,255,.055)}
+.btn-no.almost{border-color:rgba(233,169,188,.45);color:var(--pink-soft);background:rgba(233,169,188,.07);box-shadow:0 0 28px -8px rgba(233,169,188,.4)}
+.btn-no.is-yes{background:#fff;color:#09090b;border-color:#fff;box-shadow:0 14px 36px -12px rgba(255,255,255,.4)}
+.tease{min-height:24px;margin-top:14px;font-size:15px;color:rgba(255,255,255,.45)}
+.dots-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;margin-top:6px}
+.dots-label{font-size:9.5px;letter-spacing:.28em;font-weight:700;color:rgba(255,255,255,.26)}
+.dots{display:flex;gap:9px}
+.dots i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.09);transition:all .4s}
+.dots i.filled{background:#fff;border-color:#fff;box-shadow:0 0 12px rgba(255,255,255,.7)}
+.ps{margin-top:14px;font-size:11px;letter-spacing:.08em;color:rgba(255,255,255,.28)}
+.under-card{margin-top:22px;text-align:center;font-size:15px;color:rgba(255,255,255,.32);display:flex;align-items:center;gap:8px;justify-content:center}
+
+/* ---------- SUCCESS ---------- */
+.success-badge{display:inline-flex;align-items:center;gap:9px;padding:8px 18px;border-radius:999px;border:1px solid rgba(233,169,188,.28);background:rgba(233,169,188,.07);font-size:10.5px;letter-spacing:.24em;font-weight:800;color:rgba(255,255,255,.78);box-shadow:0 0 32px -8px rgba(233,169,188,.35)}
+.yay{margin-top:18px;font-size:14px;font-weight:800;letter-spacing:.22em;color:#fff;text-shadow:0 0 24px rgba(255,255,255,.25)}
+.success-h{font-weight:800;letter-spacing:-.04em;line-height:.95;font-size:clamp(46px,10vw,70px);margin:10px 0 0;background:linear-gradient(180deg,#fff 20%,#d8b4c0 65%,#8a7a82 95%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 14px 34px rgba(0,0,0,.6))}
+.see-you{margin-top:14px;font-size:21px;font-weight:600;color:#f5f5f5}
+.call-first{margin-top:6px;font-size:19px;color:rgba(255,255,255,.62)}
+.call-wrap{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:22px}
+.btn-call{background:#fff;color:#09090b;border:1px solid #fff;padding:19px 56px;font-size:14px;letter-spacing:.22em;min-width:240px;box-shadow:0 22px 60px -14px rgba(255,255,255,.4),0 0 40px -10px rgba(233,169,188,.35);overflow:visible}
+.btn-call:hover{filter:brightness(1.03);box-shadow:0 26px 70px -14px rgba(255,255,255,.5),0 0 50px -8px rgba(233,169,188,.45)}
+.btn-call svg{width:18px;height:18px}
+.pulse-ring{position:absolute;inset:-1px;border-radius:999px;border:1px solid rgba(255,255,255,.5);animation:ringPulse 2.2s ease-out infinite;pointer-events:none}
+@keyframes ringPulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(1.18);opacity:0}}
+.phone-num{background:none;border:none;cursor:pointer;font-size:12px;letter-spacing:.12em;color:rgba(255,255,255,.38);border-bottom:1px dotted rgba(255,255,255,.2);padding-bottom:2px;transition:color .3s}
+.phone-num:hover{color:#fff}
+.success-kitty-wrap{margin:16px auto 4px;display:flex;justify-content:center;color:rgba(255,255,255,.62);animation:floaty2 5s ease-in-out infinite}
+.info-pills{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:6px;font-size:10.5px;letter-spacing:.2em;font-weight:700;color:rgba(255,255,255,.42)}
+.info-pills i{font-style:normal;color:rgba(255,255,255,.18)}
+.success-actions{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:18px;font-size:12px}
+#saveBtn{padding:11px 22px;border-radius:999px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.04);color:rgba(255,255,255,.75);font-weight:800;letter-spacing:.16em;font-size:11px;cursor:pointer;transition:all .3s}
+#saveBtn:hover{border-color:rgba(255,255,255,.3);color:#fff;background:rgba(255,255,255,.07)}
+#replayBtn{background:none;border:none;cursor:pointer;color:rgba(255,255,255,.32);font-size:12px;letter-spacing:.06em;text-decoration:underline;text-underline-offset:4px;text-decoration-color:rgba(255,255,255,.18)}
+#replayBtn:hover{color:rgba(255,255,255,.7)}
+.success-actions span{color:rgba(255,255,255,.15)}
+
+/* ---------- LOADER / TOAST / CONFETTI ---------- */
+#loader{position:fixed;inset:0;z-index:50;background:#050505;display:flex;align-items:center;justify-content:center}
+.loader-inner{display:flex;flex-direction:column;align-items:center;text-align:center;padding:24px}
+.loader-kitty{color:rgba(255,255,255,.85);animation:floaty2 2.4s ease-in-out infinite;filter:drop-shadow(0 0 24px rgba(233,169,188,.25))}
+.loader-title{margin-top:16px;font-size:13px;letter-spacing:.42em;text-indent:.42em;font-weight:800;color:#fff}
+.loader-sub{margin-top:8px;font-size:15px;color:rgba(255,255,255,.4)}
+.loader-bar{margin-top:18px;width:180px;height:2px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}
+.loader-bar i{display:block;height:100%;width:0;border-radius:999px;background:linear-gradient(90deg,#fff,var(--pink));animation:loadBar 1.15s ease forwards}
+@keyframes loadBar{to{width:100%}}
+#toast{position:fixed;bottom:78px;left:50%;transform:translateX(-50%) translateY(12px);z-index:40;background:#fff;color:#09090b;font-size:13px;font-weight:700;letter-spacing:.04em;padding:12px 22px;border-radius:999px;opacity:0;pointer-events:none;transition:all .4s cubic-bezier(.34,1.4,.64,1);box-shadow:0 16px 40px -10px rgba(0,0,0,.6);white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+#confettiLayer{position:fixed;inset:0;z-index:30;pointer-events:none;overflow:hidden}
+.confetti{position:absolute;pointer-events:none}
+.confetti-kitty{position:absolute;pointer-events:none;filter:drop-shadow(0 4px 12px rgba(0,0,0,.5))}
+
+@media(max-width:640px){
+  header{padding:16px 16px}
+  .h-left{font-size:10px;letter-spacing:.18em}
+  .h-right{font-size:10px}
+  .clock{display:none}
+  .giant-word{font-size:34vw}
+  .float-kitty.hide-m{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .orb,.float-kitty,.hero-kitty,.hero-ring2,.orbit-text,.status-dot,.live-dot,.pulse-ring{animation:none !important}
+}
+</style>
+</head>
+<body>
+
+<!-- Hello Kitty symbol -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="hk" viewBox="0 0 100 72">
+      <path d="M30 30 L25 10 Q25 7.5 27.5 8.6 L45 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M70 30 L75 10 Q75 7.5 72.5 8.6 L55 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      <ellipse cx="50" cy="42" rx="29" ry="23" fill="none" stroke="currentColor" stroke-width="1.7"/>
+      <g transform="translate(68,12)">
+        <ellipse cx="-5.6" cy="0" rx="5.1" ry="3.3" fill="#E9A9BC" opacity="0.95"/>
+        <ellipse cx="5.6" cy="0" rx="5.1" ry="3.3" fill="#E9A9BC" opacity="0.95"/>
+        <circle cx="0" cy="0" r="2.6" fill="#F7D0DB" stroke="#C98AA0" stroke-width="0.7"/>
+      </g>
+      <g fill="currentColor">
+        <ellipse cx="39" cy="43.5" rx="2.1" ry="3"/>
+        <ellipse cx="61" cy="43.5" rx="2.1" ry="3"/>
+      </g>
+      <ellipse cx="50" cy="50.6" rx="2.7" ry="1.9" fill="none" stroke="currentColor" stroke-width="1.3"/>
+      <g stroke="currentColor" stroke-width="1.1" stroke-linecap="round" opacity="0.62">
+        <line x1="29" y1="44" x2="19" y2="42.4"/>
+        <line x1="29" y1="49" x2="18.5" y2="49"/>
+        <line x1="29" y1="54" x2="19.5" y2="55.6"/>
+        <line x1="71" y1="44" x2="81" y2="42.4"/>
+        <line x1="71" y1="49" x2="81.5" y2="49"/>
+        <line x1="71" y1="54" x2="80.5" y2="55.6"/>
+      </g>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- Background -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+<div class="giant-word" aria-hidden="true">ADRINA</div>
+<canvas id="particles"></canvas>
+<div class="vignette"></div>
+<div class="grain"></div>
+<div id="cursorGlow"></div>
+
+<!-- Floating tiny kitties -->
+<div class="float-kitty" style="left:7%;top:22%;--r:-10deg"><svg class="kitty-svg" width="28" height="20"><use href="#hk"/></svg></div>
+<div class="float-kitty hide-m" style="right:8%;top:26%;--r:8deg;animation-delay:-2s"><svg class="kitty-svg" width="24" height="18"><use href="#hk"/></svg></div>
+<div class="float-kitty" style="left:10%;bottom:24%;--r:6deg;animation-delay:-4s"><svg class="kitty-svg" width="22" height="16"><use href="#hk"/></svg></div>
+<div class="float-kitty hide-m" style="right:10%;bottom:28%;--r:-8deg;animation-delay:-1s"><svg class="kitty-svg" width="30" height="22"><use href="#hk"/></svg></div>
+<div class="float-kitty hide-m" style="left:46%;top:12%;--r:0deg;animation-delay:-3s;opacity:.08"><svg class="kitty-svg" width="20" height="15"><use href="#hk"/></svg></div>
+
+<!-- Loader -->
+<div id="loader">
+  <div class="loader-inner">
+    <div class="loader-kitty"><svg class="kitty-svg" width="52" height="38"><use href="#hk"/></svg></div>
+    <p class="loader-title">FOR ADRINA</p>
+    <p class="loader-sub serif" style="font-style:italic">a little invitation is loading</p>
+    <div class="loader-bar"><i></i></div>
+  </div>
+</div>
+
+<!-- Header -->
+<header id="siteHeader">
+  <div class="h-left">
+    <svg class="kitty-svg" width="22" height="16" style="color:rgba(255,255,255,.6)"><use href="#hk"/></svg>
+    <span>FOR ADRINA</span><span class="sep">—</span><span class="dim">Nº 001</span>
+  </div>
+  <div class="h-right">
+    <span id="statusDot" class="status-dot"></span>
+    <span id="statusText">AWAITING REPLY</span>
+    <span id="clock" class="clock">--:--</span>
+  </div>
+</header>
+
+<!-- Main -->
+<main>
+  <div id="stage">
+    <div id="cardWrap">
+      <div id="card">
+        <div class="card-top-line"></div>
+        <div class="card-glow"></div>
+        <div class="corner tl"><svg class="kitty-svg" width="20" height="15"><use href="#hk"/></svg></div>
+        <div class="corner tr"><svg class="kitty-svg" width="20" height="15"><use href="#hk"/></svg></div>
+        <div class="corner bl"><svg class="kitty-svg" width="18" height="13"><use href="#hk"/></svg></div>
+        <div class="corner br"><svg class="kitty-svg" width="18" height="13"><use href="#hk"/></svg></div>
+
+        <!-- INVITE STATE -->
+        <div id="inviteState" class="text-center">
+          <div class="reveal pill"><span class="live-dot"></span> PRIVATE • FOR ADRINA ONLY</div>
+
+          <div class="reveal mt-6">
+            <p class="hey">HEY,</p>
+            <h1 class="adrina">ADRINA<span class="dot">.</span></h1>
+          </div>
+
+          <p class="reveal serif invite-sub" style="font-style:italic">I have a little invitation for you.</p>
+
+          <div class="reveal hero-wrap">
+            <div class="hero-glow"></div>
+            <div class="hero-ring"></div>
+            <div class="hero-ring2"></div>
+            <div class="orbit-text" aria-hidden="true">
+              <svg viewBox="0 0 120 120">
+                <defs><path id="circ" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
+                <text><textPath href="#circ">FOR ADRINA • PRIVATE INVITATION • FOR ADRINA •</textPath></text>
+              </svg>
+            </div>
+            <div class="hero-kitty">
+              <svg width="68" height="50" viewBox="0 0 100 72" style="color:rgba(255,255,255,.88);overflow:visible">
+                <path d="M30 30 L25 10 Q25 7.5 27.5 8.6 L45 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M70 30 L75 10 Q75 7.5 72.5 8.6 L55 18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                <ellipse cx="50" cy="42" rx="29" ry="23" fill="rgba(255,255,255,.02)" stroke="currentColor" stroke-width="1.7"/>
+                <g class="hero-bow" transform="translate(68,12)">
+                  <ellipse cx="-5.6" cy="0" rx="5.1" ry="3.3" fill="#E9A9BC"/>
+                  <ellipse cx="5.6" cy="0" rx="5.1" ry="3.3" fill="#E9A9BC"/>
+                  <circle cx="0" cy="0" r="2.6" fill="#F7D0DB" stroke="#C98AA0" stroke-width="0.7"/>
+                </g>
+                <g class="hero-eyes" fill="currentColor">
+                  <ellipse cx="39" cy="43.5" rx="2.1" ry="3"/>
+                  <ellipse cx="61" cy="43.5" rx="2.1" ry="3"/>
+                </g>
+                <ellipse cx="50" cy="50.6" rx="2.7" ry="1.9" fill="none" stroke="currentColor" stroke-width="1.3"/>
+                <g stroke="currentColor" stroke-width="1.1" stroke-linecap="round" opacity="0.62">
+                  <line x1="29" y1="44" x2="19" y2="42.4"/><line x1="29" y1="49" x2="18.5" y2="49"/><line x1="29" y1="54" x2="19.5" y2="55.6"/>
+                  <line x1="71" y1="44" x2="81" y2="42.4"/><line x1="71" y1="49" x2="81.5" y2="49"/><line x1="71" y1="54" x2="80.5" y2="55.6"/>
+                </g>
+              </svg>
+            </div>
+          </div>
+
+          <div class="reveal divider">
+            <span class="line"></span>
+            <svg class="kitty-svg" width="22" height="16" style="color:rgba(255,255,255,.6)"><use href="#hk"/></svg>
+            <span class="line"></span>
+          </div>
+
+          <p class="reveal message">Come to the café and spend a little time with me?</p>
+          <p class="reveal subnote">Nothing fancy — just good coffee and good company.</p>
+
+          <div class="reveal btn-zone" id="btnZone">
+            <button id="yesBtn" class="btn btn-yes magnetic" aria-label="Yes, I am coming">
+              <span class="shine"></span>
+              <span class="btn-label" id="yesLabel">YES, I’M COMING</span>
+              <span class="arrow">→</span>
+              <span class="mini-kitty"><svg class="kitty-svg" width="18" height="13"><use href="#hk"/></svg></span>
+            </button>
+            <button id="noBtn" class="btn btn-no" aria-label="No, I am not coming">
+              <span class="btn-label" id="noLabel">NO, I’M NOT COMING</span>
+            </button>
+          </div>
+
+          <p id="tease" class="reveal tease serif" style="font-style:italic" aria-live="polite">Choose wisely — one is more fun.</p>
+
+          <div class="reveal dots-wrap">
+            <span class="dots-label">NO-PROOF METER</span>
+            <div id="dots" class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+
+          <p class="reveal ps">P.S. Saying yes is always the right answer.</p>
+        </div>
+
+        <!-- SUCCESS STATE -->
+        <div id="successState" class="text-center" style="display:none" hidden>
+          <div class="s-reveal success-badge"><span class="live-dot accepted"></span> ACCEPTED — SEE YOU SOON</div>
+          <p class="s-reveal yay">YAY. IT’S A PLAN. ✨</p>
+          <h2 class="s-reveal success-h">IT’S A DATE. ✨</h2>
+          <p class="s-reveal see-you">See you at the café.</p>
+          <p class="s-reveal serif call-first" style="font-style:italic">Before you come, give me a call first.</p>
+
+          <div class="s-reveal call-wrap">
+            <a id="callBtn" href="tel:+15550192834" class="btn btn-call magnetic" aria-label="Call me">
+              <span class="pulse-ring"></span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span>CALL ME</span>
+            </a>
+            <button id="copyPhone" class="phone-num">+1 (555) 019-2834 • tap to copy</button>
+          </div>
+
+          <div class="s-reveal success-kitty-wrap">
+            <svg class="kitty-svg" width="42" height="30"><use href="#hk"/></svg>
+          </div>
+
+          <div class="s-reveal divider">
+            <span class="line"></span>
+            <svg class="kitty-svg" width="20" height="15" style="color:rgba(255,255,255,.55)"><use href="#hk"/></svg>
+            <span class="line"></span>
+          </div>
+
+          <div class="s-reveal info-pills"><span>THE CAFÉ</span><i>•</i><span>GOOD COFFEE</span><i>•</i><span>JUST US TWO</span></div>
+
+          <div class="s-reveal success-actions">
+            <button id="saveBtn">SAVE THE DATE</button>
+            <span>•</span>
+            <button id="replayBtn">Replay invitation</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <p class="under-card serif" style="font-style:italic">
+      Something small is waiting for you at the café
+      <svg class="kitty-svg" width="18" height="13" style="color:rgba(255,255,255,.35);display:inline-block"><use href="#hk"/></svg>
+    </p>
+  </div>
+</main>
+
+<footer>
+  <span>BLACK EDITION</span>
+  <svg class="kitty-svg" width="18" height="13" style="color:rgba(255,255,255,.5)"><use href="#hk"/></svg>
+  <span>PRIVATE INVITATION • FOR ADRINA ONLY</span>
+</footer>
+
+<div id="confettiLayer"></div>
+<div id="toast" role="status"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var state = { attempts:0, max:5, accepted:false, transformed:false };
+
+  var loader=$('loader'), yesBtn=$('yesBtn'), noBtn=$('noBtn'), noLabel=$('noLabel'),
+      tease=$('tease'), dotsWrap=$('dots'), inviteState=$('inviteState'),
+      successState=$('successState'), card=$('card'), cardWrap=$('cardWrap'),
+      stage=$('stage'), statusText=$('statusText'), statusDot=$('statusDot'),
+      clockEl=$('clock'), confettiLayer=$('confettiLayer'), toastEl=$('toast'),
+      saveBtn=$('saveBtn'), replayBtn=$('replayBtn'), copyPhone=$('copyPhone');
+
+  var hasGsap = typeof window.gsap !== 'undefined';
+  var reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
+
+  /* ---------- AUDIO ---------- */
+  var audioCtx=null;
+  function tone(freq,dur,type,vol,delay){
+    try{
+      freq=freq||600; dur=dur||0.1; type=type||'sine'; vol=vol||0.05; delay=delay||0;
+      var AC = window.AudioContext || window.webkitAudioContext;
+      if(!AC) return;
+      audioCtx = audioCtx || new AC();
+      if(audioCtx.state==='suspended'){ audioCtx.resume(); }
+      var t = audioCtx.currentTime + delay;
+      var o = audioCtx.createOscillator(); var g = audioCtx.createGain();
+      o.type=type; o.frequency.setValueAtTime(freq,t);
+      g.gain.setValueAtTime(0.0001,t);
+      g.gain.linearRampToValueAtTime(vol,t+0.015);
+      g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+      o.connect(g); g.connect(audioCtx.destination);
+      o.start(t); o.stop(t+dur+0.05);
+    }catch(e){}
+  }
+  function chime(){
+    tone(523.25,0.18,'sine',0.06,0);
+    tone(659.25,0.18,'sine',0.06,0.12);
+    tone(783.99,0.28,'sine',0.06,0.24);
+  }
+
+  /* ---------- CLOCK ---------- */
+  function tick(){
+    try{
+      if(!clockEl) return;
+      var d=new Date();
+      var h=d.getHours(), m=d.getMinutes();
+      var hh=(h<10?'0':'')+h, mm=(m<10?'0':'')+m;
+      clockEl.textContent=hh+':'+mm;
+    }catch(e){}
+  }
+  tick(); setInterval(tick,10000);
+
+  /* ---------- LOADER + ENTRANCE ---------- */
+  var loaderHidden=false;
+  function entrance(){
+    if(!hasGsap || reducedMotion) return;
+    try{
+      var tl=window.gsap.timeline({defaults:{ease:'power3.out'}});
+      tl.fromTo('#siteHeader',{y:-18,opacity:0},{y:0,opacity:1,duration:.6})
+        .fromTo('#cardWrap',{y:26,opacity:0,scale:.985},{y:0,opacity:1,scale:1,duration:.7},'-=.35')
+        .fromTo('.reveal',{y:16,opacity:0},{y:0,opacity:1,duration:.5,stagger:.06},'-=.4')
+        .fromTo('footer',{y:12,opacity:0},{y:0,opacity:1,duration:.5},'-=.4');
+    }catch(e){}
+  }
+  function hideLoader(){
+    if(loaderHidden) return; loaderHidden=true;
+    if(!loader){ entrance(); return; }
+    if(hasGsap){
+      try{
+        window.gsap.to(loader,{opacity:0,duration:.5,ease:'power2.inOut',onComplete:function(){
+          loader.style.display='none'; entrance();
+        }});
+      }catch(e){ loader.style.display='none'; entrance(); }
+    } else {
+      loader.style.transition='opacity .5s'; loader.style.opacity='0';
+      setTimeout(function(){ loader.style.display='none'; },520);
+    }
+  }
+  setTimeout(hideLoader,1250);
+  setTimeout(hideLoader,2800);
+
+  /* ---------- PARTICLES ---------- */
+  (function initParticles(){
+    try{
+      var canvas=$('particles'); if(!canvas) return;
+      var ctx=canvas.getContext('2d'); if(!ctx) return;
+      var w,h,parts=[];
+      var COUNT = window.innerWidth<640 ? 22 : 46;
+      function resize(){ w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight; }
+      resize(); window.addEventListener('resize',resize);
+      for(var i=0;i<COUNT;i++){
+        parts.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,
+          r:Math.random()*1.6+0.4,vy:-(Math.random()*0.28+0.07),vx:(Math.random()-0.5)*0.16,
+          o:Math.random()*0.5+0.14,tw:Math.random()*Math.PI*2,ts:Math.random()*0.02+0.006,
+          pink:Math.random()<0.12});
+      }
+      function drawStatic(){
+        ctx.clearRect(0,0,w,h);
+        for(var k=0;k<parts.length;k++){ var p=parts[k];
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+          ctx.fillStyle=p.pink?'rgba(233,169,188,'+(p.o*0.7)+')':'rgba(255,255,255,'+(p.o*0.6)+')';
+          ctx.fill();
+        }
+      }
+      if(reducedMotion){ drawStatic(); return; }
+      (function loop(){
+        ctx.clearRect(0,0,w,h);
+        for(var j=0;j<parts.length;j++){ var q=parts[j];
+          q.y+=q.vy; q.x+=q.vx; q.tw+=q.ts;
+          if(q.y<-12){ q.y=h+12; q.x=Math.random()*w; }
+          if(q.x<-12) q.x=w+12; if(q.x>w+12) q.x=-12;
+          var a=q.o*(0.6+0.4*Math.sin(q.tw));
+          ctx.beginPath(); ctx.arc(q.x,q.y,q.r,0,Math.PI*2);
+          ctx.fillStyle=q.pink?('rgba(233,169,188,'+a+')'):('rgba(255,255,255,'+(a*0.7)+')');
+          ctx.fill();
+        }
+        requestAnimationFrame(loop);
+      })();
+    }catch(e){}
+  })();
+
+  /* ---------- TILT ---------- */
+  (function initTilt(){
+    try{
+      if(!hasGsap || !finePointer || reducedMotion) return;
+      if(!stage || !card) return;
+      window.gsap.set(card,{transformPerspective:1200});
+      var rX=window.gsap.quickTo(card,'rotationX',{duration:.7,ease:'power3.out'});
+      var rY=window.gsap.quickTo(card,'rotationY',{duration:.7,ease:'power3.out'});
+      stage.addEventListener('mousemove',function(e){
+        var r=card.getBoundingClientRect();
+        var px=(e.clientX-r.left)/r.width-0.5;
+        var py=(e.clientY-r.top)/r.height-0.5;
+        rX(-py*5); rY(px*7);
+      });
+      stage.addEventListener('mouseleave',function(){ rX(0); rY(0); });
+    }catch(e){}
+  })();
+
+  /* ---------- MAGNETIC ---------- */
+  (function initMagnetic(){
+    try{
+      if(!hasGsap || !finePointer || reducedMotion) return;
+      document.querySelectorAll('.magnetic').forEach(function(el){
+        el.addEventListener('mousemove',function(e){
+          var r=el.getBoundingClientRect();
+          var x=e.clientX-r.left-r.width/2, y=e.clientY-r.top-r.height/2;
+          window.gsap.to(el,{x:x*0.12,y:y*0.14,duration:.4,ease:'power3.out'});
+        });
+        el.addEventListener('mouseleave',function(){
+          window.gsap.to(el,{x:0,y:0,duration:.6,ease:'elastic.out(1,0.5)'});
+        });
+      });
+    }catch(e){}
+  })();
+
+  /* ---------- CURSOR GLOW ---------- */
+  (function initCursor(){
+    try{
+      var glow=$('cursorGlow'); if(!glow) return;
+      if(!finePointer){ glow.style.display='none'; return; }
+      var mx=window.innerWidth/2,my=window.innerHeight/2,cx=mx,cy=my;
+      window.addEventListener('mousemove',function(e){ mx=e.clientX; my=e.clientY; });
+      (function loop(){ cx+=(mx-cx)*0.08; cy+=(my-cy)*0.08;
+        glow.style.transform='translate('+(cx-260)+'px,'+(cy-260)+'px)';
+        requestAnimationFrame(loop);
+      })();
+    }catch(e){}
+  })();
+
+  /* ---------- INVITE LOGIC ---------- */
+  var teases=[
+    'Choose wisely — one is more fun.',
+    'Oops. That button seems shy.',
+    'Hmm, it moved. Coincidence?',
+    'Okay, it is definitely avoiding you.',
+    'Hmm... are we getting closer?',
+    'See? That was the right choice all along.'
+  ];
+  function updateTease(msg){
+    if(!tease) return;
+    if(hasGsap){
+      try{
+        window.gsap.to(tease,{opacity:0,y:-4,duration:.16,ease:'power2.in',onComplete:function(){
+          tease.textContent=msg;
+          window.gsap.to(tease,{opacity:1,y:0,duration:.28,ease:'power2.out'});
+        }});
+      }catch(e){ tease.textContent=msg; }
+    } else { tease.textContent=msg; }
+  }
+  function updateDots(){
+    try{
+      if(!dotsWrap) return;
+      var ds=dotsWrap.querySelectorAll('i');
+      for(var i=0;i<ds.length;i++){ ds[i].classList.toggle('filled', i<state.attempts); }
+    }catch(e){}
+  }
+  function dodgeNo(){
+    try{
+      var isMobile=window.innerWidth<640;
+      var maxX=isMobile?92:132, maxY=isMobile?58:78;
+      var x=(Math.random()*2-1)*maxX, y=(Math.random()*2-1)*maxY;
+      if(Math.abs(x)<42) x=x<0?-58:58;
+      if(Math.abs(y)<28) y=y<0?-44:44;
+      var r=(Math.random()*12-6);
+      if(hasGsap){
+        window.gsap.killTweensOf(noBtn);
+        window.gsap.to(noBtn,{x:x,y:y,rotation:r,duration:.55,ease:'back.out(1.7)'});
+      } else {
+        noBtn.style.transition='transform .5s cubic-bezier(.34,1.56,.64,1)';
+        noBtn.style.transform='translate('+x+'px,'+y+'px) rotate('+r+'deg)';
+      }
+      tone(300+state.attempts*70,0.08,'triangle',0.04);
+    }catch(e){}
+  }
+  function growYes(){
+    try{
+      var s=1+state.attempts*0.06;
+      if(s>1.28) s=1.28;
+      yesBtn.classList.add('glow');
+      if(hasGsap){ window.gsap.to(yesBtn,{scale:s,duration:.45,ease:'back.out(1.5)'}); }
+      else { yesBtn.style.scale=s; }
+    }catch(e){}
+  }
+  function stageOkay(){
+    try{
+      noLabel.textContent='OKAY, I’M COMING';
+      noBtn.classList.add('almost');
+      noBtn.setAttribute('aria-label','Okay, I am coming');
+    }catch(e){}
+  }
+  function stageYes(){
+    try{
+      state.transformed=true;
+      noLabel.textContent='YES, I’M COMING';
+      noBtn.classList.remove('almost');
+      noBtn.classList.add('is-yes');
+      noBtn.setAttribute('aria-label','Yes, I am coming');
+      if(hasGsap){
+        window.gsap.killTweensOf(noBtn);
+        window.gsap.to(noBtn,{x:0,y:0,rotation:0,duration:.6,ease:'back.out(1.6)'});
+        window.gsap.fromTo(noBtn,{scale:.92},{scale:1,duration:.5,ease:'back.out(2)',delay:.05});
+      } else {
+        noBtn.style.transform='translate(0px,0px) rotate(0deg)';
+      }
+      tone(740,0.12,'sine',0.05);
+      setTimeout(function(){ tone(880,0.14,'sine',0.05); },110);
+    }catch(e){}
+  }
+
+  function handleNo(e){
+    if(e) e.preventDefault();
+    if(state.accepted) return;
+    if(state.transformed){ handleYes(); return; }
+    state.attempts++;
+    updateDots();
+    if(state.attempts>=state.max){
+      stageYes();
+      updateTease(teases[5]);
+    } else if(state.attempts===state.max-1){
+      dodgeNo(); stageOkay(); growYes();
+      updateTease(teases[4]);
+    } else {
+      dodgeNo(); growYes();
+      updateTease(teases[state.attempts]||teases[1]);
+    }
+  }
+
+  function burstConfetti(){
+    try{
+      if(!confettiLayer || !card) return;
+      var r=card.getBoundingClientRect();
+      var cx=r.left+r.width/2, cy=r.top+r.height/2;
+      var colors=['#ffffff','#E9A9BC','#a1a1aa','#F7D0DB'];
+      for(var i=0;i<72;i++){
+        (function(){
+          var d=document.createElement('div'); d.className='confetti';
+          var s=Math.random()*6+3;
+          d.style.width=s+'px'; d.style.height=(Math.random()<0.3?s*1.8:s)+'px';
+          d.style.background=colors[Math.floor(Math.random()*colors.length)];
+          d.style.left=cx+'px'; d.style.top=cy+'px';
+          d.style.borderRadius=Math.random()<0.5?'50%':'2px';
+          confettiLayer.appendChild(d);
+          if(hasGsap){
+            window.gsap.to(d,{x:(Math.random()-0.5)*620,y:(Math.random()-0.7)*620,
+              rotation:Math.random()*540-270,opacity:0,
+              duration:Math.random()*1.2+1.2,ease:'power2.out',
+              onComplete:function(){ if(d.parentNode) d.parentNode.removeChild(d); }});
+          } else { setTimeout(function(){ if(d.parentNode) d.parentNode.removeChild(d); },1500); }
+        })();
+      }
+      for(var k=0;k<8;k++){
+        (function(){
+          var el=document.createElement('div'); el.className='confetti-kitty';
+          el.innerHTML='<svg width="24" height="17" viewBox="0 0 100 72" style="color:rgba(255,255,255,.85)"><use href="#hk"/></svg>';
+          el.style.left=(cx+(Math.random()-0.5)*220)+'px';
+          el.style.top=(cy+(Math.random()-0.5)*120)+'px';
+          confettiLayer.appendChild(el);
+          if(hasGsap){
+            window.gsap.to(el,{x:(Math.random()-0.5)*420,y:-Math.random()*420-110,
+              rotation:(Math.random()-0.5)*60,opacity:0,
+              duration:Math.random()+1.6,ease:'power2.out',
+              onComplete:function(){ if(el.parentNode) el.parentNode.removeChild(el); }});
+          } else { setTimeout(function(){ if(el.parentNode) el.parentNode.removeChild(el); },1800); }
+        })();
+      }
+    }catch(e){}
+  }
+
+  function transitionToSuccess(){
+    try{
+      card.classList.add('accepted-glow');
+      if(hasGsap){
+        window.gsap.to(inviteState,{opacity:0,y:-18,duration:.34,ease:'power2.in',onComplete:function(){
+          inviteState.style.display='none';
+          successState.hidden=false; successState.style.display='block';
+          window.gsap.fromTo(successState,{opacity:0,y:24,scale:.985},{opacity:1,y:0,scale:1,duration:.6,ease:'power3.out'});
+          window.gsap.fromTo('.s-reveal',{opacity:0,y:16},{opacity:1,y:0,duration:.5,stagger:.07,ease:'power3.out',delay:.08});
+        }});
+      } else {
+        inviteState.style.display='none';
+        successState.hidden=false; successState.style.display='block';
+      }
+    }catch(e){
+      inviteState.style.display='none';
+      successState.hidden=false; successState.style.display='block';
+    }
+  }
+
+  function handleYes(){
+    if(state.accepted) return;
+    state.accepted=true;
+    try{
+      chime();
+      if(statusText) statusText.textContent='ACCEPTED';
+      if(statusDot) statusDot.classList.add('ok');
+      document.body.classList.add('accepted');
+      transitionToSuccess();
+      setTimeout(burstConfetti,220);
+    }catch(e){}
+  }
+
+  if(yesBtn) yesBtn.addEventListener('click',handleYes);
+  if(noBtn) noBtn.addEventListener('click',handleNo);
+  document.addEventListener('keydown',function(e){
+    try{
+      if((e.key==='y'||e.key==='Y') && !state.accepted){ handleYes(); }
+    }catch(err){}
+  });
+
+  /* ---------- REPLAY ---------- */
+  function resetAll(){
+    try{
+      state.attempts=0; state.accepted=false; state.transformed=false;
+      noLabel.textContent='NO, I’M NOT COMING';
+      noBtn.classList.remove('is-yes','almost');
+      noBtn.setAttribute('aria-label','No, I am not coming');
+      yesBtn.classList.remove('glow');
+      if(hasGsap){ window.gsap.set([yesBtn,noBtn],{x:0,y:0,rotation:0,scale:1}); }
+      else { noBtn.style.transform=''; yesBtn.style.transform=''; yesBtn.style.scale=''; noBtn.style.scale=''; }
+      updateDots();
+      if(tease) tease.textContent=teases[0];
+      if(statusText) statusText.textContent='AWAITING REPLY';
+      if(statusDot) statusDot.classList.remove('ok');
+      document.body.classList.remove('accepted');
+      card.classList.remove('accepted-glow');
+      successState.style.display='none'; successState.hidden=true;
+      inviteState.style.display='block';
+      if(hasGsap){
+        window.gsap.fromTo(inviteState,{opacity:0,y:16},{opacity:1,y:0,duration:.5,ease:'power3.out'});
+        window.gsap.fromTo('.reveal',{opacity:0,y:12},{opacity:1,y:0,duration:.4,stagger:.04,ease:'power3.out'});
+      } else { inviteState.style.opacity='1'; }
+      tone(520,0.1,'sine',0.04);
+    }catch(e){}
+  }
+  if(replayBtn) replayBtn.addEventListener('click',resetAll);
+
+  /* ---------- TOAST ---------- */
+  function showToast(msg){
+    try{
+      if(!toastEl) return;
+      toastEl.textContent=msg; toastEl.classList.add('show');
+      clearTimeout(toastEl._t);
+      toastEl._t=setTimeout(function(){ toastEl.classList.remove('show'); },2600);
+    }catch(e){}
+  }
+
+  /* ---------- SAVE DATE (.ics) ---------- */
+  if(saveBtn) saveBtn.addEventListener('click',function(){
+    try{
+      var now=new Date();
+      var start=new Date(now); start.setDate(now.getDate()+1); start.setHours(16,0,0,0);
+      var end=new Date(start.getTime()+2*60*60*1000);
+      function fmt(d){ return d.toISOString().replace(/[-:]/g,'').split('.')[0]+'Z'; }
+      var ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Adrina Invite//EN','BEGIN:VEVENT',
+        'UID:'+Date.now()+'@adrina.invite','DTSTAMP:'+fmt(now),'DTSTART:'+fmt(start),'DTEND:'+fmt(end),
+        'SUMMARY:Cafe time with Adrina','DESCRIPTION:A little invitation - come to the cafe and spend a little time together. Call first!','LOCATION:The Cafe',
+        'END:VEVENT','END:VCALENDAR'].join('\r\n');
+      var blob=new Blob([ics],{type:'text/calendar'});
+      var url=URL.createObjectURL(blob);
+      var a=document.createElement('a'); a.href=url; a.download='cafe-with-adrina.ics';
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(function(){ URL.revokeObjectURL(url); },2000);
+      showToast('Saved — see you at the cafe');
+      tone(880,0.12,'sine',0.05);
+    }catch(e){ showToast('Could not save date'); }
+  });
+
+  /* ---------- COPY PHONE ---------- */
+  if(copyPhone) copyPhone.addEventListener('click',function(){
+    try{
+      var num='+15550192834';
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(num).then(function(){ showToast('Number copied'); },function(){ showToast('+1 (555) 019-2834'); });
+      } else { showToast('+1 (555) 019-2834'); }
+      tone(660,0.08,'sine',0.04);
+    }catch(e){}
+  });
+
+});
+</script>
+</body>
+</html>
